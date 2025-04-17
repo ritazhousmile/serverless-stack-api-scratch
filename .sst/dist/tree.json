@@ -1,0 +1,3234 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "zhouhuan-serverless-stack-api-MyStack": {
+        "id": "zhouhuan-serverless-stack-api-MyStack",
+        "path": "zhouhuan-serverless-stack-api-MyStack",
+        "children": {
+          "CustomResourceHandler": {
+            "id": "CustomResourceHandler",
+            "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.179.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                      "s3Key": "170d69667b8cd761ce43eeca1a1df820de099d628c64f1f6bb2e78d964659c07.zip"
+                    },
+                    "handler": "index.handler",
+                    "memorySize": 1024,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomResourceHandlerServiceRole41AEC181",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs22.x",
+                    "tags": [
+                      {
+                        "key": "sst:app",
+                        "value": "serverless-stack-api"
+                      },
+                      {
+                        "key": "sst:stage",
+                        "value": "zhouhuan"
+                      }
+                    ],
+                    "timeout": 900
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.179.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.179.0",
+              "metadata": []
+            }
+          },
+          "Notes": {
+            "id": "Notes",
+            "path": "zhouhuan-serverless-stack-api-MyStack/Notes",
+            "children": {
+              "Table": {
+                "id": "Table",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Notes/Table",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Notes/Table/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                      "aws:cdk:cloudformation:props": {
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "userId",
+                            "attributeType": "S"
+                          },
+                          {
+                            "attributeName": "noteId",
+                            "attributeType": "S"
+                          }
+                        ],
+                        "billingMode": "PAY_PER_REQUEST",
+                        "keySchema": [
+                          {
+                            "attributeName": "userId",
+                            "keyType": "HASH"
+                          },
+                          {
+                            "attributeName": "noteId",
+                            "keyType": "RANGE"
+                          }
+                        ],
+                        "pointInTimeRecoverySpecification": {
+                          "pointInTimeRecoveryEnabled": true
+                        },
+                        "tableName": "zhouhuan-serverless-stack-api-Notes",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "ScalingRole": {
+                    "id": "ScalingRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Notes/Table/ScalingRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Parameter_tableName": {
+                "id": "Parameter_tableName",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Notes/Parameter_tableName",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Notes/Parameter_tableName/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "/sst/serverless-stack-api/zhouhuan/Table/Notes/tableName",
+                        "tags": {
+                          "sst:app": "serverless-stack-api",
+                          "sst:stage": "zhouhuan"
+                        },
+                        "type": "String",
+                        "value": {
+                          "Ref": "NotesTable7100B0E8"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "STRIPE_SECRET_KEY": {
+            "id": "STRIPE_SECRET_KEY",
+            "path": "zhouhuan-serverless-stack-api-MyStack/STRIPE_SECRET_KEY",
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "Api": {
+            "id": "Api",
+            "path": "zhouhuan-serverless-stack-api-MyStack/Api",
+            "children": {
+              "Api": {
+                "id": "Api",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Api",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Api/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Api",
+                      "aws:cdk:cloudformation:props": {
+                        "corsConfiguration": {
+                          "allowCredentials": false,
+                          "allowHeaders": [
+                            "*"
+                          ],
+                          "allowMethods": [
+                            "*"
+                          ],
+                          "allowOrigins": [
+                            "*"
+                          ]
+                        },
+                        "name": "zhouhuan-serverless-stack-api-Api",
+                        "protocolType": "HTTP",
+                        "tags": {
+                          "sst:app": "serverless-stack-api",
+                          "sst:stage": "zhouhuan"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnApi",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "DefaultStage": {
+                    "id": "DefaultStage",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Api/DefaultStage",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Api/DefaultStage/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Stage",
+                          "aws:cdk:cloudformation:props": {
+                            "accessLogSettings": {
+                              "format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"httpMethod\":\"$context.httpMethod\",\"path\":\"$context.path\",\"routeKey\":\"$context.routeKey\",\"status\":$context.status,\"responseLatency\":$context.responseLatency,\"integrationRequestId\":\"$context.integration.requestId\",\"integrationStatus\":\"$context.integration.status\",\"integrationLatency\":\"$context.integration.latency\",\"integrationServiceStatus\":\"$context.integration.integrationStatus\",\"ip\":\"$context.identity.sourceIp\",\"userAgent\":\"$context.identity.userAgent\"}",
+                              "destinationArn": {
+                                "Fn::GetAtt": [
+                                  "ApiLogGroup1717FE17",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "autoDeploy": true,
+                            "stageName": "$default",
+                            "tags": {
+                              "sst:app": "serverless-stack-api",
+                              "sst:stage": "zhouhuan"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnStage",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpStage",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpApi",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "LogGroup": {
+                "id": "LogGroup",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/LogGroup",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/LogGroup/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                      "aws:cdk:cloudformation:props": {
+                        "logGroupName": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "/aws/vendedlogs/apis/zhouhuan-serverless-stack-api-Api-",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/default"
+                            ]
+                          ]
+                        },
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_GET_--hello": {
+                "id": "Lambda_GET_--hello",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGEThelloServiceRoleDefaultPolicy50273135",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGEThelloServiceRoleC722C16E"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "7c033ae6ca412895fa0df74917a8cd7b98cbdb78f204463919af07e6dc88f98c.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/hello.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGEThelloServiceRoleC722C16E",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_GET_--hello-Sourcemap": {
+                    "id": "Lambda_GET_--hello-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Lambda_GET_--hello-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Lambda_GET_--hello-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Lambda_GET_--hello-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_GET_--hello": {
+                "id": "Route_GET_--hello",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello",
+                "children": {
+                  "Integration_GET_--hello": {
+                    "id": "Integration_GET_--hello",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Integration_GET_--hello",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Integration_GET_--hello/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGEThello5A9ACCC3",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_GET_--hello-Permission": {
+                    "id": "Integration_GET_--hello-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Integration_GET_--hello-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGEThello5A9ACCC3",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/hello"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "GET /hello",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGEThelloIntegrationGEThello61C31175"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_GET_--debug": {
+                "id": "Lambda_GET_--debug",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGETdebugServiceRoleDefaultPolicyBA3BBCDB",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGETdebugServiceRole34565BC9"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "40c0a341c471479d36d525202399e3617c27446d126fcd678da9a9263a765d06.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/debug.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETdebugServiceRole34565BC9",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_GET_--debug-Sourcemap": {
+                    "id": "Lambda_GET_--debug-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Lambda_GET_--debug-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Lambda_GET_--debug-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Lambda_GET_--debug-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_GET_--debug": {
+                "id": "Route_GET_--debug",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug",
+                "children": {
+                  "Integration_GET_--debug": {
+                    "id": "Integration_GET_--debug",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Integration_GET_--debug",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Integration_GET_--debug/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGETdebug0FDB9EEC",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_GET_--debug-Permission": {
+                    "id": "Integration_GET_--debug-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Integration_GET_--debug-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETdebug0FDB9EEC",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/debug"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "GET /debug",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGETdebugIntegrationGETdebugE2BBA615"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_POST_--notes": {
+                "id": "Lambda_POST_--notes",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "c2bde8df83afccb0130699acf098c9aa263a5af642cecd1e03d1feaec481664c.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/create.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTnotesServiceRoleD16681D3",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_POST_--notes-Sourcemap": {
+                    "id": "Lambda_POST_--notes-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Lambda_POST_--notes-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Lambda_POST_--notes-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Lambda_POST_--notes-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_POST_--notes": {
+                "id": "Route_POST_--notes",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes",
+                "children": {
+                  "Integration_POST_--notes": {
+                    "id": "Integration_POST_--notes",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Integration_POST_--notes",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Integration_POST_--notes/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaPOSTnotes3B067E1B",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_POST_--notes-Permission": {
+                    "id": "Integration_POST_--notes-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Integration_POST_--notes-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTnotes3B067E1B",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "POST /notes",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_GET_--notes": {
+                "id": "Lambda_GET_--notes",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGETnotesServiceRoleFAD2F768"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "7afd95209aadf4705597909057026ce3dfca4800071e4555d36d4cda1823309c.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/list.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesServiceRoleFAD2F768",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_GET_--notes-Sourcemap": {
+                    "id": "Lambda_GET_--notes-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Lambda_GET_--notes-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Lambda_GET_--notes-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Lambda_GET_--notes-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_GET_--notes": {
+                "id": "Route_GET_--notes",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes",
+                "children": {
+                  "Integration_GET_--notes": {
+                    "id": "Integration_GET_--notes",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Integration_GET_--notes",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Integration_GET_--notes/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGETnotesA3E56CF7",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_GET_--notes-Permission": {
+                    "id": "Integration_GET_--notes-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Integration_GET_--notes-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesA3E56CF7",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "GET /notes",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_GET_--notes--{id}": {
+                "id": "Lambda_GET_--notes--{id}",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "aa525e2acb323a252e1e00058a7b5a3195fb8d3151ab9a40e52722910cb65408.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/get.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesidServiceRole5ED71CA8",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_GET_--notes--{id}-Sourcemap": {
+                    "id": "Lambda_GET_--notes--{id}-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Lambda_GET_--notes--{id}-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Lambda_GET_--notes--{id}-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Lambda_GET_--notes--{id}-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_GET_--notes--{id}": {
+                "id": "Route_GET_--notes--{id}",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}",
+                "children": {
+                  "Integration_GET_--notes--{id}": {
+                    "id": "Integration_GET_--notes--{id}",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaGETnotesidBDFD7F2C",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_GET_--notes--{id}-Permission": {
+                    "id": "Integration_GET_--notes--{id}-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaGETnotesidBDFD7F2C",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes/{id}"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "GET /notes/{id}",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_DELETE_--notes--{id}": {
+                "id": "Lambda_DELETE_--notes--{id}",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "0ae767ae2a22f274282b6bc42ef23d43bbc392d6a89caefcc1edfb99c05c9df6.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/delete.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaDELETEnotesidServiceRole196EBA58",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_DELETE_--notes--{id}-Sourcemap": {
+                    "id": "Lambda_DELETE_--notes--{id}-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Lambda_DELETE_--notes--{id}-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Lambda_DELETE_--notes--{id}-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Lambda_DELETE_--notes--{id}-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_DELETE_--notes--{id}": {
+                "id": "Route_DELETE_--notes--{id}",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}",
+                "children": {
+                  "Integration_DELETE_--notes--{id}": {
+                    "id": "Integration_DELETE_--notes--{id}",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaDELETEnotesid69A96EAD",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_DELETE_--notes--{id}-Permission": {
+                    "id": "Integration_DELETE_--notes--{id}-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaDELETEnotesid69A96EAD",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/notes/{id}"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "DELETE /notes/{id}",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Lambda_POST_--billing": {
+                "id": "Lambda_POST_--billing",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "sst:app",
+                                "value": "serverless-stack-api"
+                              },
+                              {
+                                "key": "sst:stage",
+                                "value": "zhouhuan"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "xray:PutTraceSegments",
+                                        "xray:PutTelemetryRecords"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "dynamodb:*",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "NotesTable7100B0E8",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "NotesTable7100B0E8",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Action": "ssm:GetParameters",
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/zhouhuan/Secret/STRIPE_SECRET_KEY/value"
+                                            ]
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              "arn:",
+                                              {
+                                                "Ref": "AWS::Partition"
+                                              },
+                                              ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/.fallback/Secret/STRIPE_SECRET_KEY/value"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+                                "roles": [
+                                  {
+                                    "Ref": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.179.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "x86_64"
+                        ],
+                        "code": {
+                          "s3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+                          "s3Key": "72dcbbe80c7404ac9187e1ed6191d8654e49e4ff13250e8cb880d93c94f84705.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "tableName": {
+                              "Ref": "NotesTable7100B0E8"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+                            "SST_APP": "serverless-stack-api",
+                            "SST_STAGE": "zhouhuan",
+                            "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/",
+                            "SST_Secret_value_STRIPE_SECRET_KEY": "__FETCH_FROM_SSM__"
+                          }
+                        },
+                        "ephemeralStorage": {
+                          "size": 512
+                        },
+                        "handler": "functions/billing.main",
+                        "memorySize": 1024,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTbillingServiceRoleB5827DFF",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "tags": [
+                          {
+                            "key": "sst:app",
+                            "value": "serverless-stack-api"
+                          },
+                          {
+                            "key": "sst:stage",
+                            "value": "zhouhuan"
+                          }
+                        ],
+                        "timeout": 10,
+                        "tracingConfig": {
+                          "mode": "Active"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Lambda_POST_--billing-Sourcemap": {
+                    "id": "Lambda_POST_--billing-Sourcemap",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Lambda_POST_--billing-Sourcemap",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Lambda_POST_--billing-Sourcemap/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Lambda_POST_--billing-Sourcemap/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.179.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.179.0",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Route_POST_--billing": {
+                "id": "Route_POST_--billing",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing",
+                "children": {
+                  "Integration_POST_--billing": {
+                    "id": "Integration_POST_--billing",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Integration_POST_--billing",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Integration_POST_--billing/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "ApiCD79AAA0"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "ApiLambdaPOSTbilling71E49732",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.179.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpIntegration",
+                      "version": "2.179.0",
+                      "metadata": []
+                    }
+                  },
+                  "Integration_POST_--billing-Permission": {
+                    "id": "Integration_POST_--billing-Permission",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Integration_POST_--billing-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "ApiLambdaPOSTbilling71E49732",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:us-east-1:017519743527:",
+                              {
+                                "Ref": "ApiCD79AAA0"
+                              },
+                              "/*/*/billing"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.179.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "ApiCD79AAA0"
+                        },
+                        "authorizationType": "NONE",
+                        "routeKey": "POST /billing",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_apigatewayv2.HttpRoute",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              },
+              "Parameter_url": {
+                "id": "Parameter_url",
+                "path": "zhouhuan-serverless-stack-api-MyStack/Api/Parameter_url",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "zhouhuan-serverless-stack-api-MyStack/Api/Parameter_url/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "/sst/serverless-stack-api/zhouhuan/Api/Api/url",
+                        "tags": {
+                          "sst:app": "serverless-stack-api",
+                          "sst:stage": "zhouhuan"
+                        },
+                        "type": "String",
+                        "value": {
+                          "Fn::GetAtt": [
+                            "ApiCD79AAA0",
+                            "ApiEndpoint"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                      "version": "2.179.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+                  "version": "2.179.0",
+                  "metadata": []
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "SSTStackOutputApiEndpoint": {
+            "id": "SSTStackOutputApiEndpoint",
+            "path": "zhouhuan-serverless-stack-api-MyStack/SSTStackOutputApiEndpoint",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.179.0"
+            }
+          },
+          "SSTStackOutputNotesTableName": {
+            "id": "SSTStackOutputNotesTableName",
+            "path": "zhouhuan-serverless-stack-api-MyStack/SSTStackOutputNotesTableName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.179.0"
+            }
+          },
+          "SSTStackOutputSSTMetadata": {
+            "id": "SSTStackOutputSSTMetadata",
+            "path": "zhouhuan-serverless-stack-api-MyStack/SSTStackOutputSSTMetadata",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.179.0"
+            }
+          },
+          "SourcemapUploaderPolicy": {
+            "id": "SourcemapUploaderPolicy",
+            "path": "zhouhuan-serverless-stack-api-MyStack/SourcemapUploaderPolicy",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "zhouhuan-serverless-stack-api-MyStack/SourcemapUploaderPolicy/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                  "aws:cdk:cloudformation:props": {
+                    "policyDocument": {
+                      "Statement": [
+                        {
+                          "Action": [
+                            "s3:GetObject",
+                            "s3:GetObjectTagging",
+                            "s3:PutObject",
+                            "s3:PutObjectTagging"
+                          ],
+                          "Effect": "Allow",
+                          "Resource": [
+                            {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":s3:::cdk-hnb659fds-assets-017519743527-us-east-1/*"
+                                ]
+                              ]
+                            },
+                            {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":s3:::sstbootstrap-useast124d14e4b-egxenrvmifvl/*"
+                                ]
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "policyName": "SourcemapUploaderPolicy6476872E",
+                    "roles": [
+                      {
+                        "Ref": "CustomResourceHandlerServiceRole41AEC181"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                  "version": "2.179.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Policy",
+              "version": "2.179.0",
+              "metadata": []
+            }
+          },
+          "SourcemapUploader": {
+            "id": "SourcemapUploader",
+            "path": "zhouhuan-serverless-stack-api-MyStack/SourcemapUploader",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "zhouhuan-serverless-stack-api-MyStack/SourcemapUploader/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.179.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CustomResource",
+              "version": "2.179.0",
+              "metadata": []
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "zhouhuan-serverless-stack-api-MyStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.179.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "zhouhuan-serverless-stack-api-MyStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.179.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.179.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.179.0"
+    }
+  }
+}

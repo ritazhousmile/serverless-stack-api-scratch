@@ -1,0 +1,416 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "zhouhuan-serverless-stack-api-MyStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "zhouhuan-serverless-stack-api-MyStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "zhouhuan-serverless-stack-api-MyStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://017519743527/us-east-1",
+      "properties": {
+        "templateFile": "zhouhuan-serverless-stack-api-MyStack.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "sst:app": "serverless-stack-api",
+          "sst:stage": "zhouhuan"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::017519743527:role/cdk-hnb659fds-deploy-role-017519743527-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::017519743527:role/cdk-hnb659fds-cfn-exec-role-017519743527-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-017519743527-us-east-1/83d4a5d4158712e55b881592a40d358825997dd39a4933572b11a70c55775475.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "zhouhuan-serverless-stack-api-MyStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::017519743527:role/cdk-hnb659fds-lookup-role-017519743527-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "zhouhuan-serverless-stack-api-MyStack.assets"
+      ],
+      "metadata": {
+        "/zhouhuan-serverless-stack-api-MyStack": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "sst:app",
+                "Value": "serverless-stack-api"
+              },
+              {
+                "Key": "sst:stage",
+                "Value": "zhouhuan"
+              }
+            ]
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerServiceRole41AEC181"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/CustomResourceHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomResourceHandlerE8FB56BA"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Notes/Table": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "NotesTable7100B0E8"
+            }
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Notes/Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotesTable7100B0E8"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Notes/Parameter_tableName/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotesParametertableName66A90EA8"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiCD79AAA0"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Api/DefaultStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiDefaultStage1AAE989B"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLogGroup1717FE17"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGEThelloServiceRoleC722C16E"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGEThelloServiceRoleDefaultPolicy50273135"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--hello/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGEThello5A9ACCC3"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Integration_GET_--hello/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGEThelloIntegrationGEThello61C31175"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Integration_GET_--hello-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGEThelloIntegrationGEThelloPermission41A90AD5"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--hello/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGEThello7575D965"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETdebugServiceRole34565BC9"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETdebugServiceRoleDefaultPolicyBA3BBCDB"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--debug/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETdebug0FDB9EEC"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Integration_GET_--debug/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETdebugIntegrationGETdebugE2BBA615"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Integration_GET_--debug-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETdebugIntegrationGETdebugPermissionA3BFDF65"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--debug/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETdebugD90810BA"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotes3B067E1B"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Integration_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Integration_POST_--notes-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotes66667A1D"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesServiceRoleFAD2F768"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesA3E56CF7"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Integration_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Integration_GET_--notes-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesBFEE3C9D"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaGETnotesidBDFD7F2C"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Integration_GET_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_GET_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteGETnotesid7B39CB5A"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaDELETEnotesid69A96EAD"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Integration_DELETE_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_DELETE_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRouteDELETEnotesidCFA3191E"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTbilling71E49732"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Integration_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Integration_POST_--billing-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--billing/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTbilling09AED9DA"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Parameter_url/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiParameterurl09B86AB9"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/SSTStackOutputApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEndpoint"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/SSTStackOutputNotesTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotesTableName"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/SSTStackOutputSSTMetadata": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SSTMetadata"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/SourcemapUploaderPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SourcemapUploaderPolicy6476872E"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/SourcemapUploader/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SourcemapUploader"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "zhouhuan-serverless-stack-api-MyStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

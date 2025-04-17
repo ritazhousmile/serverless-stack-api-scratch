@@ -1,0 +1,1986 @@
+{
+ "Resources": {
+  "CustomResourceHandlerServiceRole41AEC181": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "CustomResourceHandlerE8FB56BA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "170d69667b8cd761ce43eeca1a1df820de099d628c64f1f6bb2e78d964659c07.zip"
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerServiceRole41AEC181",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomResourceHandlerServiceRole41AEC181"
+   ]
+  },
+  "NotesTable7100B0E8": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "noteId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "userId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "noteId",
+      "KeyType": "RANGE"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "zhouhuan-serverless-stack-api-Notes",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "NotesParametertableName66A90EA8": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/sst/serverless-stack-api/zhouhuan/Table/Notes/tableName",
+    "Tags": {
+     "sst:app": "serverless-stack-api",
+     "sst:stage": "zhouhuan"
+    },
+    "Type": "String",
+    "Value": {
+     "Ref": "NotesTable7100B0E8"
+    }
+   }
+  },
+  "ApiCD79AAA0": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "CorsConfiguration": {
+     "AllowCredentials": false,
+     "AllowHeaders": [
+      "*"
+     ],
+     "AllowMethods": [
+      "*"
+     ],
+     "AllowOrigins": [
+      "*"
+     ]
+    },
+    "Name": "zhouhuan-serverless-stack-api-Api",
+    "ProtocolType": "HTTP",
+    "Tags": {
+     "sst:app": "serverless-stack-api",
+     "sst:stage": "zhouhuan"
+    }
+   }
+  },
+  "ApiDefaultStage1AAE989B": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "AccessLogSettings": {
+     "DestinationArn": {
+      "Fn::GetAtt": [
+       "ApiLogGroup1717FE17",
+       "Arn"
+      ]
+     },
+     "Format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"httpMethod\":\"$context.httpMethod\",\"path\":\"$context.path\",\"routeKey\":\"$context.routeKey\",\"status\":$context.status,\"responseLatency\":$context.responseLatency,\"integrationRequestId\":\"$context.integration.requestId\",\"integrationStatus\":\"$context.integration.status\",\"integrationLatency\":\"$context.integration.latency\",\"integrationServiceStatus\":\"$context.integration.integrationStatus\",\"ip\":\"$context.identity.sourceIp\",\"userAgent\":\"$context.identity.userAgent\"}"
+    },
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AutoDeploy": true,
+    "StageName": "$default",
+    "Tags": {
+     "sst:app": "serverless-stack-api",
+     "sst:stage": "zhouhuan"
+    }
+   }
+  },
+  "ApiLogGroup1717FE17": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/vendedlogs/apis/zhouhuan-serverless-stack-api-Api-",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/default"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "ApiLambdaGEThelloServiceRoleC722C16E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGEThelloServiceRoleDefaultPolicy50273135": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaGEThelloServiceRoleDefaultPolicy50273135",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaGEThelloServiceRoleC722C16E"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGEThello5A9ACCC3": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "7c033ae6ca412895fa0df74917a8cd7b98cbdb78f204463919af07e6dc88f98c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/hello.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaGEThelloServiceRoleC722C16E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaGEThelloServiceRoleDefaultPolicy50273135",
+    "ApiLambdaGEThelloServiceRoleC722C16E"
+   ]
+  },
+  "ApiRouteGEThelloIntegrationGEThello61C31175": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaGEThello5A9ACCC3",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRouteGEThelloIntegrationGEThelloPermission41A90AD5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaGEThello5A9ACCC3",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/hello"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRouteGEThello7575D965": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /hello",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRouteGEThelloIntegrationGEThello61C31175"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaGETdebugServiceRole34565BC9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETdebugServiceRoleDefaultPolicyBA3BBCDB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaGETdebugServiceRoleDefaultPolicyBA3BBCDB",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaGETdebugServiceRole34565BC9"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETdebug0FDB9EEC": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "40c0a341c471479d36d525202399e3617c27446d126fcd678da9a9263a765d06.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/debug.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETdebugServiceRole34565BC9",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaGETdebugServiceRoleDefaultPolicyBA3BBCDB",
+    "ApiLambdaGETdebugServiceRole34565BC9"
+   ]
+  },
+  "ApiRouteGETdebugIntegrationGETdebugE2BBA615": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETdebug0FDB9EEC",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRouteGETdebugIntegrationGETdebugPermissionA3BFDF65": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETdebug0FDB9EEC",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/debug"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRouteGETdebugD90810BA": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /debug",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRouteGETdebugIntegrationGETdebugE2BBA615"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaPOSTnotesServiceRoleD16681D3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaPOSTnotesServiceRoleD16681D3"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTnotes3B067E1B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "c2bde8df83afccb0130699acf098c9aa263a5af642cecd1e03d1feaec481664c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/create.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotesServiceRoleD16681D3",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaPOSTnotesServiceRoleDefaultPolicy6D85CF6B",
+    "ApiLambdaPOSTnotesServiceRoleD16681D3"
+   ]
+  },
+  "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotes3B067E1B",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRoutePOSTnotesIntegrationPOSTnotesPermission83B10601": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotes3B067E1B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRoutePOSTnotes66667A1D": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "POST /notes",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRoutePOSTnotesIntegrationPOSTnotes44F9E77C"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaGETnotesServiceRoleFAD2F768": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaGETnotesServiceRoleFAD2F768"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETnotesA3E56CF7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "7afd95209aadf4705597909057026ce3dfca4800071e4555d36d4cda1823309c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/list.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesServiceRoleFAD2F768",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaGETnotesServiceRoleDefaultPolicy46521967",
+    "ApiLambdaGETnotesServiceRoleFAD2F768"
+   ]
+  },
+  "ApiRouteGETnotesIntegrationGETnotes809882CF": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesA3E56CF7",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRouteGETnotesIntegrationGETnotesPermissionA18F8817": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesA3E56CF7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRouteGETnotesBFEE3C9D": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /notes",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRouteGETnotesIntegrationGETnotes809882CF"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaGETnotesidServiceRole5ED71CA8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaGETnotesidServiceRole5ED71CA8"
+     }
+    ]
+   }
+  },
+  "ApiLambdaGETnotesidBDFD7F2C": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "aa525e2acb323a252e1e00058a7b5a3195fb8d3151ab9a40e52722910cb65408.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/get.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesidServiceRole5ED71CA8",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaGETnotesidServiceRoleDefaultPolicy0BDDFC9B",
+    "ApiLambdaGETnotesidServiceRole5ED71CA8"
+   ]
+  },
+  "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesidBDFD7F2C",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRouteGETnotesidIntegrationGETnotesidPermissionC332DC73": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaGETnotesidBDFD7F2C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes/{id}"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRouteGETnotesid7B39CB5A": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /notes/{id}",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRouteGETnotesidIntegrationGETnotesidDDEC4C94"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaDELETEnotesidServiceRole196EBA58": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaDELETEnotesidServiceRole196EBA58"
+     }
+    ]
+   }
+  },
+  "ApiLambdaDELETEnotesid69A96EAD": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "0ae767ae2a22f274282b6bc42ef23d43bbc392d6a89caefcc1edfb99c05c9df6.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/delete.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaDELETEnotesidServiceRole196EBA58",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaDELETEnotesidServiceRoleDefaultPolicy451F8A74",
+    "ApiLambdaDELETEnotesidServiceRole196EBA58"
+   ]
+  },
+  "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaDELETEnotesid69A96EAD",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRouteDELETEnotesidIntegrationDELETEnotesidPermission717CBC89": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaDELETEnotesid69A96EAD",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes/{id}"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRouteDELETEnotesidCFA3191E": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "DELETE /notes/{id}",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaPOSTbillingServiceRoleB5827DFF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "ssm:GetParameters",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/zhouhuan/Secret/STRIPE_SECRET_KEY/value"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/.fallback/Secret/STRIPE_SECRET_KEY/value"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTbilling71E49732": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "72dcbbe80c7404ac9187e1ed6191d8654e49e4ff13250e8cb880d93c94f84705.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/",
+      "SST_Secret_value_STRIPE_SECRET_KEY": "__FETCH_FROM_SSM__"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/billing.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTbillingServiceRoleB5827DFF",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaPOSTbillingServiceRoleDefaultPolicy23915694",
+    "ApiLambdaPOSTbillingServiceRoleB5827DFF"
+   ]
+  },
+  "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTbilling71E49732",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRoutePOSTbillingIntegrationPOSTbillingPermissionF7A0B32C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTbilling71E49732",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/billing"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRoutePOSTbilling09AED9DA": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "POST /billing",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRoutePOSTbillingIntegrationPOSTbillingE351CA9B"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiParameterurl09B86AB9": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/sst/serverless-stack-api/zhouhuan/Api/Api/url",
+    "Tags": {
+     "sst:app": "serverless-stack-api",
+     "sst:stage": "zhouhuan"
+    },
+    "Type": "String",
+    "Value": {
+     "Fn::GetAtt": [
+      "ApiCD79AAA0",
+      "ApiEndpoint"
+     ]
+    }
+   }
+  },
+  "SourcemapUploaderPolicy6476872E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:GetObjectTagging",
+        "s3:PutObject",
+        "s3:PutObjectTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::cdk-hnb659fds-assets-017519743527-us-east-1/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::sstbootstrap-useast124d14e4b-egxenrvmifvl/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SourcemapUploaderPolicy6476872E",
+    "Roles": [
+     {
+      "Ref": "CustomResourceHandlerServiceRole41AEC181"
+     }
+    ]
+   }
+  },
+  "SourcemapUploader": {
+   "Type": "Custom::SourcemapUploader",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomResourceHandlerE8FB56BA",
+      "Arn"
+     ]
+    },
+    "app": "serverless-stack-api",
+    "stage": "zhouhuan",
+    "tarBucket": "sstbootstrap-useast124d14e4b-egxenrvmifvl",
+    "srcBucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+    "sourcemaps": [
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaDELETEnotesid69A96EAD",
+        "Arn"
+       ]
+      },
+      "234a72a214941133f0a53659a9c9438cd9b6e8d8d5040c75a09a5e84d9452c2c.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETdebug0FDB9EEC",
+        "Arn"
+       ]
+      },
+      "081fdd75b50d2eef7e65b8ef1e4e381e650d05daa7bd687f82f1c6e120703c24.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGEThello5A9ACCC3",
+        "Arn"
+       ]
+      },
+      "13d020dcd79e5cf763fae3bec23ced14f848b483bf36c018472b1257ed472401.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETnotesidBDFD7F2C",
+        "Arn"
+       ]
+      },
+      "94c660fa2e3a9abb54882487e8efb2c7ae19a9f5d96062e07728c01926fa0548.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETnotesA3E56CF7",
+        "Arn"
+       ]
+      },
+      "9fde06ba876d85e23f9a718789b15c0414b5c41940ba1c32959a8c85e145092e.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPOSTbilling71E49732",
+        "Arn"
+       ]
+      },
+      "47a72b293507528f4b3a17d2cd5753140b62fd85051d8ed0b1638a06b7157b97.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPOSTnotes3B067E1B",
+        "Arn"
+       ]
+      },
+      "b2cbf9bada0cdcda5d333825e8c5bca75191a6fd16492c3d36576b351b4bfabf.map"
+     ]
+    ]
+   },
+   "DependsOn": [
+    "SourcemapUploaderPolicy6476872E"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  }
+ },
+ "Outputs": {
+  "ApiEndpoint": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiCD79AAA0",
+     "ApiEndpoint"
+    ]
+   }
+  },
+  "NotesTableName": {
+   "Value": {
+    "Ref": "NotesTable7100B0E8"
+   }
+  },
+  "SSTMetadata": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "{\"app\":\"serverless-stack-api\",\"stage\":\"zhouhuan\",\"version\":\"2.48.5\",\"metadata\":[{\"id\":\"Notes\",\"addr\":\"c8403343a28c39cb5887a1ce088193a5f39588aa3c\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Table\",\"data\":{\"tableName\":\"",
+      {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "\",\"consumers\":[]}},{\"id\":\"STRIPE_SECRET_KEY\",\"addr\":\"c88a58203cd4dd295b225c7dab1d05e772607e2e0c\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Secret\",\"data\":{\"name\":\"STRIPE_SECRET_KEY\"}},{\"id\":\"Api\",\"addr\":\"c844470650d79d09074d9c67bb915284ac71118df5\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Api\",\"data\":{\"graphql\":false,\"url\":\"https://",
+      {
+       "Ref": "ApiCD79AAA0"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/\",\"httpApiId\":\"",
+      {
+       "Ref": "ApiCD79AAA0"
+      },
+      "\",\"routes\":[{\"type\":\"function\",\"route\":\"GET /hello\",\"fn\":{\"node\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /debug\",\"fn\":{\"node\":\"c870f9723007dd51ec2f2f6f8c499c771ed6a57e5d\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /notes\",\"fn\":{\"node\":\"c87154e80192742adeadf0a98b90c40e8f82d0d187\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes\",\"fn\":{\"node\":\"c8be1447e4777138111b741a614e6f617bbe09429b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes/{id}\",\"fn\":{\"node\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"DELETE /notes/{id}\",\"fn\":{\"node\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /billing\",\"fn\":{\"node\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}}]}},{\"id\":\"Lambda_GET_--hello\",\"addr\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGEThello5A9ACCC3",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/hello.main\",\"localId\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"secrets\":[]}},{\"id\":\"Lambda_GET_--debug\",\"addr\":\"c870f9723007dd51ec2f2f6f8c499c771ed6a57e5d\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETdebug0FDB9EEC",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/debug.main\",\"localId\":\"c870f9723007dd51ec2f2f6f8c499c771ed6a57e5d\",\"secrets\":[]}},{\"id\":\"Lambda_POST_--notes\",\"addr\":\"c87154e80192742adeadf0a98b90c40e8f82d0d187\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPOSTnotes3B067E1B",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/create.main\",\"localId\":\"c87154e80192742adeadf0a98b90c40e8f82d0d187\",\"secrets\":[]}},{\"id\":\"Lambda_GET_--notes\",\"addr\":\"c8be1447e4777138111b741a614e6f617bbe09429b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETnotesA3E56CF7",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/list.main\",\"localId\":\"c8be1447e4777138111b741a614e6f617bbe09429b\",\"secrets\":[]}},{\"id\":\"Lambda_GET_--notes--{id}\",\"addr\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaGETnotesidBDFD7F2C",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/get.main\",\"localId\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"secrets\":[]}},{\"id\":\"Lambda_DELETE_--notes--{id}\",\"addr\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaDELETEnotesid69A96EAD",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/delete.main\",\"localId\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"secrets\":[]}},{\"id\":\"Lambda_POST_--billing\",\"addr\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPOSTbilling71E49732",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/billing.main\",\"localId\":\"c839385383641f37131307f751531be5f70c38d82a\",\"secrets\":[\"STRIPE_SECRET_KEY\"]}}]}"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,6 @@
+{
+  "extends": "sst/tsconfig.json",
+  "compilerOptions": {
+    "strict": true
+  }
+}
