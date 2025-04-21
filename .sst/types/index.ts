@@ -24,6 +24,15 @@ declare module "sst/node/config" {
   }
 }
 
+import "sst/node/config";
+declare module "sst/node/config" {
+  export interface SecretResources {
+    "OPENAI_API_KEY": {
+      value: string;
+    }
+  }
+}
+
 import "sst/node/api";
 declare module "sst/node/api" {
   export interface ApiResources {

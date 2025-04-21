@@ -12,6 +12,9 @@ export function MyStack({ stack }: StackContext) {
 
   // Create the Stripe secret environment parameter
   const stripeSecretKey = new Config.Secret(stack, "STRIPE_SECRET_KEY");
+  
+  // Create the OpenAI API key parameter
+  const openaiApiKey = new Config.Secret(stack, "OPENAI_API_KEY");
 
   const api = new Api(stack, "Api", {
     cors: {
@@ -34,7 +37,17 @@ export function MyStack({ stack }: StackContext) {
       "POST /notes": "functions/create.main",
       "GET /notes": "functions/list.main",
       "GET /notes/{id}": "functions/get.main",
+      "PUT /notes/{id}": "functions/update.main",
       "DELETE /notes/{id}": "functions/delete.main",
+      "POST /notes/{id}/enhance": {
+        function: {
+          handler: "functions/enhance.main",
+          environment: {
+            OPENAI_API_KEY: openaiApiKey.name
+          },
+          bind: [openaiApiKey]
+        }
+      },
       "POST /billing": {
         function: {
           handler: "functions/billing.main",

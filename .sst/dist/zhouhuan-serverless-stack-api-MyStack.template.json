@@ -1254,6 +1254,216 @@
     }
    }
   },
+  "ApiLambdaPUTnotesidServiceRole7A962796": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaPUTnotesidServiceRole7A962796"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPUTnotesid28D10C39": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "75e618ddb7ade143752b72bba3826d3b120bb721c26d82a4b058a44ce25ce11c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/update.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaPUTnotesidServiceRole7A962796",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED",
+    "ApiLambdaPUTnotesidServiceRole7A962796"
+   ]
+  },
+  "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaPUTnotesid28D10C39",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaPUTnotesid28D10C39",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes/{id}"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRoutePUTnotesidFAE087B0": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "PUT /notes/{id}",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7"
+       }
+      ]
+     ]
+    }
+   }
+  },
   "ApiLambdaDELETEnotesidServiceRole196EBA58": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -1458,6 +1668,248 @@
        "integrations/",
        {
         "Ref": "ApiRouteDELETEnotesidIntegrationDELETEnotesidE2F04DD5"
+       }
+      ]
+     ]
+    }
+   }
+  },
+  "ApiLambdaPOSTnotesidenhanceServiceRoleA1E4BAA7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTnotesidenhanceServiceRoleDefaultPolicy83586517": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "dynamodb:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotesTable7100B0E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotesTable7100B0E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "ssm:GetParameters",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/zhouhuan/Secret/OPENAI_API_KEY/value"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":ssm:us-east-1:017519743527:parameter/sst/serverless-stack-api/.fallback/Secret/OPENAI_API_KEY/value"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiLambdaPOSTnotesidenhanceServiceRoleDefaultPolicy83586517",
+    "Roles": [
+     {
+      "Ref": "ApiLambdaPOSTnotesidenhanceServiceRoleA1E4BAA7"
+     }
+    ]
+   }
+  },
+  "ApiLambdaPOSTnotesidenhance2766DE54": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-017519743527-us-east-1",
+     "S3Key": "005628bb3acad4de789a4f4f68ba6da9ce04cf24dc5e3f647c4df17378882c5d.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "tableName": {
+       "Ref": "NotesTable7100B0E8"
+      },
+      "OPENAI_API_KEY": "OPENAI_API_KEY",
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+      "SST_APP": "serverless-stack-api",
+      "SST_STAGE": "zhouhuan",
+      "SST_SSM_PREFIX": "/sst/serverless-stack-api/zhouhuan/",
+      "SST_Secret_value_OPENAI_API_KEY": "__FETCH_FROM_SSM__"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "functions/enhance.main",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotesidenhanceServiceRoleA1E4BAA7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "serverless-stack-api"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "zhouhuan"
+     }
+    ],
+    "Timeout": 10,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ApiLambdaPOSTnotesidenhanceServiceRoleDefaultPolicy83586517",
+    "ApiLambdaPOSTnotesidenhanceServiceRoleA1E4BAA7"
+   ]
+  },
+  "ApiRoutePOSTnotesidenhanceIntegrationPOSTnotesidenhanceDEBE9F6F": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotesidenhance2766DE54",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   }
+  },
+  "ApiRoutePOSTnotesidenhanceIntegrationPOSTnotesidenhancePermission78717C61": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ApiLambdaPOSTnotesidenhance2766DE54",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-1:017519743527:",
+       {
+        "Ref": "ApiCD79AAA0"
+       },
+       "/*/*/notes/{id}/enhance"
+      ]
+     ]
+    }
+   }
+  },
+  "ApiRoutePOSTnotesidenhance3335AA7F": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ApiCD79AAA0"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "POST /notes/{id}/enhance",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ApiRoutePOSTnotesidenhanceIntegrationPOSTnotesidenhanceDEBE9F6F"
        }
       ]
      ]
@@ -1844,11 +2296,29 @@
      [
       {
        "Fn::GetAtt": [
+        "ApiLambdaPOSTnotesidenhance2766DE54",
+        "Arn"
+       ]
+      },
+      "91654ebc9cc789068b3c4d88b845b9ab2bbfa540d2fda51276fa011acc7a1913.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
         "ApiLambdaPOSTnotes3B067E1B",
         "Arn"
        ]
       },
       "b2cbf9bada0cdcda5d333825e8c5bca75191a6fd16492c3d36576b351b4bfabf.map"
+     ],
+     [
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPUTnotesid28D10C39",
+        "Arn"
+       ]
+      },
+      "54ff2179da167d81b636b577e06b22b32246c543f19fd4dbe530c1722f74facf.map"
      ]
     ]
    },
@@ -1882,7 +2352,7 @@
       {
        "Ref": "NotesTable7100B0E8"
       },
-      "\",\"consumers\":[]}},{\"id\":\"STRIPE_SECRET_KEY\",\"addr\":\"c88a58203cd4dd295b225c7dab1d05e772607e2e0c\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Secret\",\"data\":{\"name\":\"STRIPE_SECRET_KEY\"}},{\"id\":\"Api\",\"addr\":\"c844470650d79d09074d9c67bb915284ac71118df5\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Api\",\"data\":{\"graphql\":false,\"url\":\"https://",
+      "\",\"consumers\":[]}},{\"id\":\"STRIPE_SECRET_KEY\",\"addr\":\"c88a58203cd4dd295b225c7dab1d05e772607e2e0c\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Secret\",\"data\":{\"name\":\"STRIPE_SECRET_KEY\"}},{\"id\":\"OPENAI_API_KEY\",\"addr\":\"c8e1df346eefd078e074744c59c5df03d40007ee80\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Secret\",\"data\":{\"name\":\"OPENAI_API_KEY\"}},{\"id\":\"Api\",\"addr\":\"c844470650d79d09074d9c67bb915284ac71118df5\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Api\",\"data\":{\"graphql\":false,\"url\":\"https://",
       {
        "Ref": "ApiCD79AAA0"
       },
@@ -1894,7 +2364,7 @@
       {
        "Ref": "ApiCD79AAA0"
       },
-      "\",\"routes\":[{\"type\":\"function\",\"route\":\"GET /hello\",\"fn\":{\"node\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /debug\",\"fn\":{\"node\":\"c870f9723007dd51ec2f2f6f8c499c771ed6a57e5d\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /notes\",\"fn\":{\"node\":\"c87154e80192742adeadf0a98b90c40e8f82d0d187\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes\",\"fn\":{\"node\":\"c8be1447e4777138111b741a614e6f617bbe09429b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes/{id}\",\"fn\":{\"node\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"DELETE /notes/{id}\",\"fn\":{\"node\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /billing\",\"fn\":{\"node\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}}]}},{\"id\":\"Lambda_GET_--hello\",\"addr\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      "\",\"routes\":[{\"type\":\"function\",\"route\":\"GET /hello\",\"fn\":{\"node\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /debug\",\"fn\":{\"node\":\"c870f9723007dd51ec2f2f6f8c499c771ed6a57e5d\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /notes\",\"fn\":{\"node\":\"c87154e80192742adeadf0a98b90c40e8f82d0d187\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes\",\"fn\":{\"node\":\"c8be1447e4777138111b741a614e6f617bbe09429b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"GET /notes/{id}\",\"fn\":{\"node\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"PUT /notes/{id}\",\"fn\":{\"node\":\"c8fae31055af3068be4876280837c0f5bff1f96a85\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"DELETE /notes/{id}\",\"fn\":{\"node\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /notes/{id}/enhance\",\"fn\":{\"node\":\"c83ae43cea7d9bb2093ff1d26ef8188accf0368b13\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}},{\"type\":\"function\",\"route\":\"POST /billing\",\"fn\":{\"node\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\"}}]}},{\"id\":\"Lambda_GET_--hello\",\"addr\":\"c8b49e6d061ab9d356edba7bff10883f6203c9990b\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
       {
        "Fn::GetAtt": [
         "ApiLambdaGEThello5A9ACCC3",
@@ -1929,14 +2399,28 @@
         "Arn"
        ]
       },
-      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/get.main\",\"localId\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"secrets\":[]}},{\"id\":\"Lambda_DELETE_--notes--{id}\",\"addr\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/get.main\",\"localId\":\"c8a7dd517e8b4b8a27a8658e02b3a8aa784c690058\",\"secrets\":[]}},{\"id\":\"Lambda_PUT_--notes--{id}\",\"addr\":\"c8fae31055af3068be4876280837c0f5bff1f96a85\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPUTnotesid28D10C39",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/update.main\",\"localId\":\"c8fae31055af3068be4876280837c0f5bff1f96a85\",\"secrets\":[]}},{\"id\":\"Lambda_DELETE_--notes--{id}\",\"addr\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
       {
        "Fn::GetAtt": [
         "ApiLambdaDELETEnotesid69A96EAD",
         "Arn"
        ]
       },
-      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/delete.main\",\"localId\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"secrets\":[]}},{\"id\":\"Lambda_POST_--billing\",\"addr\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/delete.main\",\"localId\":\"c83b2618dd3d3b96b75779448848ad7794b1ef8077\",\"secrets\":[]}},{\"id\":\"Lambda_POST_--notes--{id}--enhance\",\"addr\":\"c83ae43cea7d9bb2093ff1d26ef8188accf0368b13\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "ApiLambdaPOSTnotesidenhance2766DE54",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"functions/enhance.main\",\"localId\":\"c83ae43cea7d9bb2093ff1d26ef8188accf0368b13\",\"secrets\":[\"OPENAI_API_KEY\"]}},{\"id\":\"Lambda_POST_--billing\",\"addr\":\"c839385383641f37131307f751531be5f70c38d82a\",\"stack\":\"zhouhuan-serverless-stack-api-MyStack\",\"type\":\"Function\",\"data\":{\"arn\":\"",
       {
        "Fn::GetAtt": [
         "ApiLambdaPOSTbilling71E49732",

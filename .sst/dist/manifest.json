@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::017519743527:role/cdk-hnb659fds-deploy-role-017519743527-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::017519743527:role/cdk-hnb659fds-cfn-exec-role-017519743527-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-017519743527-us-east-1/83d4a5d4158712e55b881592a40d358825997dd39a4933572b11a70c55775475.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-017519743527-us-east-1/5a6b19e62e560123957169595f7df1020c4690f0a90d0204db754dad17d89acf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -283,6 +283,42 @@
             "data": "ApiRouteGETnotesid7B39CB5A"
           }
         ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_PUT_--notes--{id}/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesidServiceRole7A962796"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_PUT_--notes--{id}/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesidServiceRoleDefaultPolicyB3FF9AED"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPUTnotesid28D10C39"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidIntegrationPUTnotesid0B48B9D7"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_PUT_--notes--{id}/Integration_PUT_--notes--{id}-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidIntegrationPUTnotesidPermissionDD71990C"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_PUT_--notes--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePUTnotesidFAE087B0"
+          }
+        ],
         "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_DELETE_--notes--{id}/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -317,6 +353,42 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ApiRouteDELETEnotesidCFA3191E"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes--{id}--enhance/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesidenhanceServiceRoleA1E4BAA7"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes--{id}--enhance/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesidenhanceServiceRoleDefaultPolicy83586517"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--notes--{id}--enhance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiLambdaPOSTnotesidenhance2766DE54"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes--{id}--enhance/Integration_POST_--notes--{id}--enhance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesidenhanceIntegrationPOSTnotesidenhanceDEBE9F6F"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes--{id}--enhance/Integration_POST_--notes--{id}--enhance-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesidenhanceIntegrationPOSTnotesidenhancePermission78717C61"
+          }
+        ],
+        "/zhouhuan-serverless-stack-api-MyStack/Api/Route_POST_--notes--{id}--enhance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiRoutePOSTnotesidenhance3335AA7F"
           }
         ],
         "/zhouhuan-serverless-stack-api-MyStack/Api/Lambda_POST_--billing/ServiceRole/Resource": [
